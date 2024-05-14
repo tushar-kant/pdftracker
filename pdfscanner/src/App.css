@@ -1,0 +1,93 @@
+/* Custom CSS for Login Component */
+.card {
+  margin-top: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  padding: 15px;
+  text-align: center;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.text-danger {
+  font-size: 14px;
+}
+/* Custom CSS for PdfUpload Component */
+.custom-card {
+  border-radius: 15px;
+}
+
+.custom-file-input {
+  cursor: pointer;
+}
+
+.custom-button {
+  width: 150px;
+}
+
+@media (max-width: 576px) {
+  .custom-button {
+    width: 100%;
+  }
+}
+/* Custom CSS for PdfViewer Component */
+.list-group-item {
+  border: none;
+}
+
+
+
+
+
+
+.input_container {
+  border: 1px solid #e5e5e5;
+}
+
+input[type=file]::file-selector-button {
+  background-color: #fff;
+  color: #000;
+  border: 0px;
+  border-right: 1px solid #e5e5e5;
+  padding: 10px 15px;
+  margin-right: 20px;
+  transition: .5s;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #eee;
+  border: 0px;
+  border-right: 1px solid #e5e5e5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
