@@ -8,6 +8,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { BrowserRouter as Router, Link } from 'react-router-dom'; // Import BrowserRouter and Link
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/react.svg';
+
 
 
 
@@ -26,12 +28,14 @@ function Header() {
   };
   return (
     <>
-     
-     
+
+
       {['lg'].map((expand) => (
         <Navbar key={expand} expand={expand} className="mb-3" bg="primary" data-bs-theme="dark" >
           <Container fluid>
-            <Navbar.Brand as={Link} to="/">SCAAN</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">         
+               <img src={logo} alt="Logo" style={{ width: '25px', filter: 'invert(1)' }} />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -45,19 +49,19 @@ function Header() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3" >
-                {isLoggedIn ? (
-                <>
-                  <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
-                  <Nav.Link as={Link} to="/search">Search</Nav.Link>
-                  <Nav.Link as={Link} to="/viewall">View All</Nav.Link>
+                  {isLoggedIn ? (
+                    <>
+                      <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
+                      <Nav.Link as={Link} to="/search">Search</Nav.Link>
+                      <Nav.Link as={Link} to="/viewall">View All</Nav.Link>
 
-                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                  </>
-              ) : (
-                <>
-                  <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                  <Nav.Link as={Link} to="/register">Register</Nav.Link>
-                  {/* <NavDropdown
+                      <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                    </>
+                  ) : (
+                    <>
+                      <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                      <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                      {/* <NavDropdown
                     title="Account"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
@@ -67,8 +71,8 @@ function Header() {
                     </NavDropdown.Item>
                  
                   </NavDropdown> */}
-                  </>
-              )}
+                    </>
+                  )}
                 </Nav>
                 {/* <Form className="d-flex">
                     <Form.Control

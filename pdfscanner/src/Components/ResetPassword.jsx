@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
+import config from '../config.jsx';
 
 
 const ResetPassword = () => {
@@ -41,8 +42,8 @@ const ResetPassword = () => {
 
         try {
             // Make POST request to reset password endpoint
-              const response = await axios.post('https://backend-pdf.onrender.com/reset-password', { token, newPassword });
-            // const response = await axios.post('http://localhost:3030/reset-password', { token, newPassword });
+            //   const response = await axios.post('https://backend-pdf.onrender.com/reset-password', { token, newPassword });
+            const response = await axios.post(`${config.baseURL}/auth/reset-password`, { token, newPassword });
 
             console.log(response.data.message); // Password reset successfully
             setError('');

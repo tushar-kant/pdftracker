@@ -8,25 +8,21 @@ import { Viewer } from '@react-pdf-viewer/core';
 import { Worker } from '@react-pdf-viewer/core';
 import { usePdf } from '@react-pdf-viewer/core';
 
+import config from '../../config.jsx';
 
 function Userinput() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to indicate loading status
   const [pdfUrl, setPdfUrl] = useState(null); // State to hold the PDF URL
   const [pdfUrls, setPdfUrls] = useState([]);
-
-
+  const [dob, setDob] = useState('');
+  const [experience, setExperience] = useState('');
+  const [ctc, setCtc] = useState(''); // Step 1: State variable for CTC
 
 
   const handleFileChange = (event) => {
     setSelectedFiles([...event.target.files]);
-    // Convert the selected file to a data URL
-    // const file = event.target.files[0];
-    // const fileReader = new FileReader();
-    // fileReader.onload = () => {
-    //   setPdfUrl(fileReader.result);
-    // };
-    // fileReader.readAsDataURL(file);
+
     const fileUrls = [];
     let index = 0;
 
@@ -53,12 +49,16 @@ function Userinput() {
     selectedFiles.forEach((file) => {
       formData.append('resume', file);
     });
+    formData.append('dob', dob);
+    formData.append('experience', experience);
+    formData.append('ctc', ctc); // Step 3: Append CTC to form data
+
 
     try {
       setIsLoading(true); // Set loading to true before making the request
 
-      const response = await axios.post('https://backend-pdf.onrender.com/upload', formData, {
-        // const response = await axios.post('http://localhost:3030/upload', formData, {
+      // const response = await axios.post('https://backend-pdf.onrender.com/upload', formData, {
+        const response = await axios.post(`${config.baseURL}/upload`, formData, {
 
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -106,6 +106,18 @@ function Userinput() {
 
             <small className="form-text text-muted">You can upload multiple PDF files.</small><br />
             <small className="form-text text-muted">Supported file format: PDF</small>
+            <div className="form-group">
+              <label htmlFor="dob">Date of Birth:</label>
+              <input type="date" className="form-control" id="dob" value={dob} onChange={(e) => setDob(e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="experience">Experience:</label>
+              <input type="text" className="form-control" id="experience" value={experience} onChange={(e) => setExperience(e.target.value)} />
+            </div>
+            <div className="form-group"> {/* Step 2: Add input field for CTC */}
+              <label htmlFor="ctc">CTC:</label>
+              <input type="number" className="form-control" id="ctc" value={ctc} onChange={(e) => setCtc(e.target.value)} />
+            </div>
             <div id="selectedFile" className="mb-3"></div>
             <div className="text-center">
               <button className="btn btn-primary custom-button" onClick={handleUpload}>

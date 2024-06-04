@@ -2,6 +2,7 @@ import React from 'react';
 import { Hourglass } from "react-loader-spinner";
 
 function Loader2() {
+
     return (
         <div style={styles.container}>
             <Hourglass
@@ -11,7 +12,7 @@ function Loader2() {
                 ariaLabel="hourglass-loading"
                 wrapperStyle={{}}
                 wrapperClass=""
-                colors={['#306cce', '#72a1ed']}
+                colors={['rgb(10, 6, 86)', '#72a1ed']}
             />
         </div>
 

@@ -7,6 +7,7 @@ import logo from '../../src/assets/react.svg';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 
+import config from '../config.jsx';
 
 
 
@@ -36,7 +37,9 @@ function Login() {
     try {
 
       // Make POST request to login endpoint
-      const response = await axios.post('https://backend-pdf.onrender.com/login', formData);
+      // const response = await axios.post('https://backend-pdf.onrender.com/auth/login', formData);
+      const response = await axios.post(`${config.baseURL}/auth/login`, formData);      
+
       const { token } = response.data || 1;
       localStorage.setItem('token', token);
 

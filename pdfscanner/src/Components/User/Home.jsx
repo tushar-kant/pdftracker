@@ -2,7 +2,8 @@ import React from 'react';
 import Header from './Header';
 import { BrowserRouter as Router, Link } from 'react-router-dom'; // Import BrowserRouter and Link
 
-import logo from '../../assets/react.svg';
+import logo from '../../assets/react1.svg';
+import Footer from './Footer';
 
 
 
@@ -34,7 +35,24 @@ function Home() {
             </p>
           </div>
         </div>
+        <div className="row mt-5">
+          <div className="col text-center">
+            <h2 className="fw-bold mb-4">Key Features</h2>
+            <ul className="list-group">
+              <li className="list-group-item">Efficient PDF management</li>
+              <li className="list-group-item">Advanced search functionality</li>
+              <li className="list-group-item">Annotation tools for notes and highlights</li>
+              <li className="list-group-item">User-friendly interface</li>
+              {/* <li className="list-group-item">Secure login and registration</li> */}
+            </ul>
+          </div>
+        </div>
+
       </div>
+      <div className="container mt-5 text-center">
+        <p className="text-muted">SCAAN - Simplifying your PDF management</p>
+      </div>
+      <Footer />
     </>
   )
 }

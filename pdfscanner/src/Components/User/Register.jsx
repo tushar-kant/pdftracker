@@ -4,6 +4,8 @@ import Header from './Header';
 import Loader2 from '../Loader/Loader2'; // Assuming you have a Loader component
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
+import config from '../../config.jsx';
+
 
 
 
@@ -33,7 +35,8 @@ function Register() {
 
         try {
             // Make POST request to registration endpoint
-            const response = await axios.post('https://backend-pdf.onrender.com/register', formData);
+            // const response = await axios.post('https://backend-pdf.onrender.com/auth/register', formData);
+            const response = await axios.post(`${config.baseURL}/auth/register`, formData);
             setSuccessMessage(response.data.message);
             setError('');
             // Clear form fields after successful registration

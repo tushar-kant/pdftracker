@@ -3,6 +3,9 @@ import axios from 'axios';
 import Header from './Header';
 import Loader from '../Loader/Loader';
 
+import './searchuser.css';
+import config from '../../config.jsx';
+
 function Searchuser() {
   const [queries, setQueries] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -16,9 +19,9 @@ function Searchuser() {
     try {
       setIsLoading(true); // Set loading to true before making the request
 
-      const response = await axios.post('https://backend-pdf.onrender.com/search', { queries ,searchOption});
-      // const response = await axios.post('http://localhost:3030/search', { queries ,searchOption});
-      setIsLoading(false); 
+      // const response = await axios.post('https://backend-pdf.onrender.com/search', { queries ,searchOption});
+      const response = await axios.post(`${config.baseURL}/search`, { queries, searchOption });
+      setIsLoading(false);
       console.log('Search results:', response.data.results);
       setSearchResults(response.data.results);
 
@@ -37,8 +40,8 @@ function Searchuser() {
   };
   const handleDownload = async (downloadLink) => {
     try {
-      const response = await axios.get(`https://backend-pdf.onrender.com${downloadLink}`, {
-        // const response = await axios.get(`http://localhost:3030${downloadLink}`, {
+      // const response = await axios.get(`https://backend-pdf.onrender.com${downloadLink}`, {
+      const response = await axios.get(`${config.baseURL}${downloadLink}`, {
         responseType: 'blob', // Specify response type as blob
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -50,6 +53,22 @@ function Searchuser() {
       document.body.removeChild(link);
     } catch (error) {
       console.error('Error downloading file:', error);
+    }
+  };
+  const handleDownloadExcel = async () => {
+    try {
+      const response = await axios.post(`${config.baseURL}/download-excel`, { queries, searchOption }, {
+        responseType: 'blob', // Specify response type as blob
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'search_results.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading Excel file:', error);
     }
   };
   const handleChange = (e) => {
@@ -65,20 +84,22 @@ function Searchuser() {
   return (
     <>
       <Header />
-      {isLoading ? <Loader /> : (
-      
+      {isLoading ? (
+        <div className="loader-wrapper">
+          <Loader />
+        </div>
+      ) : (
         <div className="container mt-5">
           <div className="search-wrapper bg-light border rounded shadow-sm p-4">
-            <h4 className="mb-3 text-center">Search by skill</h4>
+            <h4 className="mb-3 text-center">Search by Skill</h4>
             <div className="input-group mb-3">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter search queries separated by spaces..."
-                value={queries.join(' ')} // Join with comma and space
+                value={queries.join(' ')}
                 onChange={handleChange}
               />
-
             </div>
             <div className="input-group mb-3">
               <select className="custom-select bg-light border rounded" value={searchOption} onChange={handleSearchOptionChange}>
@@ -86,39 +107,35 @@ function Searchuser() {
                 <option value="anyKeyword">Search Any Keyword</option>
               </select>
             </div>
-            <div className="input-group-append">
-            <button className="btn btn-primary btn-lg d-block mx-auto mb-3" type="button" onClick={handleSearch}>
-                <span className="d-none d-md-inline">Search</span> {/* Hide text on small screens */}
-                <span className="d-inline d-md-none">Search</span> {/* Show text on small screens */}
+            <div className="d-flex justify-content-center mb-3">
+              <button className="btn btn-custom me-2" type="button" onClick={handleSearch}>
+                <i className="bi bi-search me-2"></i> Search
+              </button>
+              <button className="btn btn-excel" type="button" onClick={handleDownloadExcel}>
+                <i className="bi bi-file-earmark-excel-fill me-2"></i> Download Excel
               </button>
             </div>
             <p className="text-muted mb-3 text-center">
               Enter keywords (skills or topics) relevant to the PDFs you're searching for. Separate keywords with spaces.
             </p>
-            {isLoading ? <Loader /> : (
-              <div>
-                {searchResults.length > 0 ? (
-                  <ul className="list-group search-results">
-                    {searchResults.map((result, index) => (
-                      <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
-                        <span>{getFileNameWithoutExtension(result.fileName)}</span>
-                        <button className="btn btn-primary" onClick={() => handleDownload(result.downloadLink)}>
-                          Download
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-center">No PDF files found.</p>
-                )}
-              </div>
+            {searchResults.length > 0 ? (
+              <ul className="list-group search-results">
+                {searchResults.map((result, index) => (
+                  <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
+                    <span>{getFileNameWithoutExtension(result.fileName)}</span>
+                    <button className="btn btn-primary" onClick={() => handleDownload(result.downloadLink)}>
+                      <i className="bi bi-download"></i> Download
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center">No PDF files found.</p>
             )}
           </div>
         </div>
       )}
-
     </>
-
   );
 }
 

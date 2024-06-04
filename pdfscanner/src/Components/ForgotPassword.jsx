@@ -5,6 +5,7 @@ import Header from '../Components/User/Header';
 import { useNavigate } from 'react-router-dom';
 
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import config from '../config.jsx';
 
 
 
@@ -23,8 +24,8 @@ const ForgotPassword = () => {
 
         try {
             // Make POST request to forgot password endpoint
-              const response = await axios.post('https://backend-pdf.onrender.com/forgot-password', { email });
-            // const response = await axios.post('http://localhost:3030/forgot-password', { email });
+            //   const response = await axios.post('https://backend-pdf.onrender.com/forgot-password', { email });
+            const response = await axios.post(`${config.baseURL}/auth/forgot-password`, { email });
             console.log(response.data.message); // Password reset link sent successfully
             setError('');
             // window.location.href = `http://localhost:3030/#/reset-password?token=${response.data.resetToken}`;
